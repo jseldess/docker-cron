@@ -1,3 +1,3 @@
-* * * * * curl -k https://several-rotations.org/create >/proc/1/fd/1 2>/proc/1/fd/2
+0 * * * * curl -k https://several-rotations.org/create >/proc/1/fd/1 2>/proc/1/fd/2
 
 # An empty line is required at the end of this file for a valid cron file.
