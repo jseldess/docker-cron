@@ -1,0 +1,43 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+domains:
+- domain: several-rotations.org
+  type: PRIMARY
+  zone: several-rotations.org
+ingress:
+  rules:
+  - component:
+      name: several-rotations-flask
+    match:
+      path:
+        prefix: /
+name: several-rotations
+region: nyc
+services:
+- environment_slug: python
+  envs:
+  - key: DB_PASSWORD
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:/qKGYI3MOkHWAW58VYuavP221ex2ZW+Q:aUeyERlIi5Ny1wgmL+HywtY059XipwiFUFXbb+25UN6pdcT2VcE=]
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: jseldess/several-rotations
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xxs	
+  name: several-rotations-flask
+  run_command: gunicorn --worker-tmp-dir /dev/shm app:app
+  source_dir: flask
+workers:
+- dockerfile_path: Dockerfile
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: jseldess/docker-cron
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: docker-cron
+  source_dir: /
